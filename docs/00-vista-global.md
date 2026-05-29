@@ -41,7 +41,7 @@ flowchart LR
 
         Editor -->|webhook generar texto| WF_TXT_LK
         Editor -->|webhook generar imagen| WF_IMG_LK
-        Editor -->|webhook publicar (record_id)| WF_PUB_LK
+        Editor -->|webhook publicar con record_id| WF_PUB_LK
         WF_TXT_LK --> Airtable
         WF_IMG_LK --> Airtable
         Airtable --> WF_PUB_LK

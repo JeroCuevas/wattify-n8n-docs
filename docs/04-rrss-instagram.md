@@ -60,7 +60,7 @@ Instagram exige un flujo de tres pasos: crear el contenedor REELS, esperar a que
 ```mermaid
 flowchart TD
     DONE[HeyGen Completed?<br/>vídeo disponible]:::node
-    CAP[Generate IG Caption<br/>Gemini flash<br/>hook escrito + 1-2 frases<br/>CTA "link en bio" + 4-5 hashtags<br/>retry 3x]:::ext
+    CAP[Generate IG Caption<br/>Gemini flash<br/>hook escrito + 1-2 frases<br/>CTA 'link en bio' + 4-5 hashtags<br/>retry 3x]:::ext
     CONT[IG Create Container<br/>media_type=REELS<br/>share_to_feed=true]:::ext
 
     WAIT_IG[Wait IG Container 15s]:::node
