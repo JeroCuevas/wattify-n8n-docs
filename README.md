@@ -10,6 +10,7 @@ Diagramas técnicos del stack de automatización n8n de Wattify. Todos los diagr
 | [01 — Agente Isabel](./docs/01-isabel-agente.md) | Chat web Chatwoot + RAG + Cal.com |
 | [02 — Pipeline RRSS LinkedIn](./docs/02-rrss-linkedin.md) | Generación texto/imagen + aprobación humana + publicación |
 | [03 — Pipeline RRSS Video](./docs/03-rrss-video.md) | Guión + HeyGen + upload chunked a LinkedIn |
+| [04 — Pipeline RRSS Instagram](./docs/04-rrss-instagram.md) | Guión + HeyGen 9:16 + publicación vía Instagram Graph API |
 
 ## Convenciones visuales
 

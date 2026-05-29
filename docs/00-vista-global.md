@@ -1,6 +1,6 @@
 # 00 — Vista global del stack Wattify
 
-Mapa de los 4 dominios funcionales del stack n8n Wattify y sus interacciones con servicios externos.
+Mapa de los 5 dominios funcionales del stack n8n Wattify y sus interacciones con servicios externos.
 
 ```mermaid
 flowchart LR
@@ -62,6 +62,21 @@ flowchart LR
     end
 
     %% =========================================================
+    %% Dominio: RRSS Instagram Reels
+    %% =========================================================
+    subgraph RRSS_IG["Pipeline RRSS Instagram  (tag: Instagram)"]
+        direction TB
+        WF_TXT_IG["Generar Texto Reel IG"]:::wf
+        WF_REEL_IG["Generar y Publicar Reel IG"]:::wf
+
+        Editor -->|webhook generar texto reel| WF_TXT_IG
+        Editor -->|webhook generar reel| WF_REEL_IG
+        WF_TXT_IG --> Airtable
+        Airtable --> WF_REEL_IG
+        WF_REEL_IG --> Airtable
+    end
+
+    %% =========================================================
     %% Dominio: Infraestructura
     %% =========================================================
     subgraph INFRA["Infraestructura"]
@@ -88,6 +103,7 @@ flowchart LR
         Cal[["Cal.com v2"]]:::saas
         LinkedIn[["LinkedIn REST API<br/>(organización)"]]:::saas
         HeyGen[["HeyGen v3<br/>avatares + voces"]]:::saas
+        IG[["Instagram Graph API<br/>(cuenta Business)"]]:::saas
         Gmail[["Gmail<br/>(email operativo)"]]:::saas
     end
 
@@ -127,7 +143,15 @@ flowchart LR
     WF_AVATAR --> LinkedIn
 
     %% =========================================================
-    %% Error Notifier (configurado como errorWorkflow en los otros 9)
+    %% Conexiones RRSS Instagram ↔ resto
+    %% =========================================================
+    WF_TXT_IG --> Gemini
+    WF_REEL_IG --> Gemini
+    WF_REEL_IG --> HeyGen
+    WF_REEL_IG --> IG
+
+    %% =========================================================
+    %% Error Notifier (configurado como errorWorkflow en los otros 11)
     %% =========================================================
     WF_CHAT -.->|on error| WF_ERR
     WF_RAG -.->|on error| WF_ERR
@@ -138,6 +162,8 @@ flowchart LR
     WF_PUB_LK -.->|on error| WF_ERR
     WF_TXT_VID -.->|on error| WF_ERR
     WF_AVATAR -.->|on error| WF_ERR
+    WF_TXT_IG -.->|on error| WF_ERR
+    WF_REEL_IG -.->|on error| WF_ERR
     WF_ERR --> Gmail
 
     %% Estilos
@@ -150,6 +176,6 @@ flowchart LR
 ## Cómo se relacionan los dominios
 
 1. **Asistente Isabel** es un sistema vivo en tiempo real: cada turno de conversación dispara el orquestador del widget Chatwoot, que combina memoria de Redis, RAG (PGVector poblado por el workflow de ingestión) y dos sub-workflows como tools de Cal.com.
-2. **Pipeline RRSS LinkedIn** y **Video** comparten Airtable como cola de trabajo. El editor humano dispara cada workflow desde botones de Airtable. La imagen LK pasa por un paso de aprobación humana (estado `pendiente_aprobacion` → botón "Publicar").
-3. **Error Notifier Global** está configurado como `settings.errorWorkflow` en los otros 9 workflows. Cualquier fallo (HTTP 5xx, credencial caducada, throw en Code node) dispara un email rojo al email operativo con stack + link a la ejecución.
+2. **Pipeline RRSS LinkedIn**, **Video** e **Instagram Reels** comparten Airtable como cola de trabajo. El editor humano dispara cada workflow desde botones de Airtable. La imagen LK pasa por un paso de aprobación humana (estado `pendiente_aprobacion` → botón "Publicar"); el vídeo LK y los Reels IG son fire-and-forget (publican directo). Instagram es un pipeline paralelo al de vídeo LK porque exige formato vertical 9:16 con subtítulos quemados y publicación vía Instagram Graph API.
+3. **Error Notifier Global** está configurado como `settings.errorWorkflow` en los otros 11 workflows. Cualquier fallo (HTTP 5xx, credencial caducada, throw en Code node) dispara un email rojo al email operativo con stack + link a la ejecución.
 4. **Redis y Postgres** son almacenes compartidos. Redis es operativo (buffer, memoria conversacional, idempotencia, rate-limit). Postgres es analítico/persistente (`documents` para RAG, `agent_turn_logs` para auditoría).
