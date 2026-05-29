@@ -18,7 +18,7 @@ stateDiagram-v2
 
 ```mermaid
 flowchart LR
-    AT_BTN([Botón Airtable<br/>"Crear Texto LK"]):::ext
+    AT_BTN([Botón Airtable<br/>'Crear Texto LK']):::ext
     WH[Webhook<br/>recibe record_id<br/>+ idea]:::node
     GEMINI[Gemini flash<br/>system prompt:<br/>copywriter B2B Wattify<br/>hook + desarrollo + CTA<br/>3-5 hashtags]:::ext
     UPD[Airtable Update record<br/>Texto Post LK = output]:::store
@@ -38,7 +38,7 @@ Dos pasos LLM en cadena: primero un Gemini flash que actúa de director de arte 
 
 ```mermaid
 flowchart TD
-    AT_BTN([Botón Airtable<br/>"Generar Imagen LK"]):::ext
+    AT_BTN([Botón Airtable<br/>'Generar Imagen LK']):::ext
     WH[Webhook<br/>recibe record_id<br/>+ post_linkedin]:::node
     PROMPT[Message a model1<br/>Gemini flash<br/>director de arte:<br/>prompt visual en EN<br/>texto-en-imagen en ES<br/>entre comillas]:::ext
     NB2[Generate an image<br/>Nano Banana 2<br/>retry 3x · wait 5s]:::ext
@@ -63,7 +63,7 @@ Workflow disparado solo desde el botón Airtable de aprobación. Valida estado, 
 
 ```mermaid
 flowchart TD
-    AT_BTN([Botón Airtable<br/>"✅ Publicar en LinkedIn"]):::ext
+    AT_BTN([Botón Airtable<br/>'✅ Publicar en LinkedIn']):::ext
     WH[Webhook<br/>recibe record_id<br/>responseMode=responseNode]:::node
     GET_REC[Airtable Get Record<br/>fields complete]:::store
     CHECK[Check Status<br/>Code node<br/>valida estado=pendiente_aprobacion<br/>+ attachment + texto]:::node

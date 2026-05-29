@@ -6,7 +6,7 @@ Dos workflows: uno simple para generar el guión hablado, y uno mucho más compl
 
 ```mermaid
 flowchart LR
-    AT_BTN([Botón Airtable<br/>"Crear Texto Video"]):::ext
+    AT_BTN([Botón Airtable<br/>'Crear Texto Video']):::ext
     WH[Webhook<br/>recibe record_id<br/>+ idea]:::node
     GEMINI[Gemini flash<br/>system prompt:<br/>guión hablado 45-75s<br/>SIN emojis SIN hashtags<br/>SIN URLs SIN markdown<br/>120-180 palabras]:::ext
     UPD[Airtable Update<br/>Texto video = output<br/>onError: continueRegularOutput]:::store

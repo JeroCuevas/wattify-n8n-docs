@@ -8,7 +8,7 @@ Genera el guión hablado del Reel con un tono específico de Instagram (hook bru
 
 ```mermaid
 flowchart LR
-    AT_BTN([Botón Airtable<br/>"Generar Texto Reel IG"]):::ext
+    AT_BTN([Botón Airtable<br/>'Generar Texto Reel IG']):::ext
     WH[Webhook<br/>recibe record_id<br/>+ idea]:::node
     GEMINI[Gemini flash<br/>prompt IG Reels:<br/>hook brutal 2s<br/>frases muy cortas<br/>60-100 palabras ≈ 25-40s<br/>SIN URLs SIN emojis SIN hashtags<br/>retry 3x]:::ext
     UPD[Airtable Update<br/>Texto Reel IG = output<br/>onError: continueRegularOutput]:::store
@@ -28,7 +28,7 @@ Workflow fire-and-forget que toma el guión de Airtable, genera el avatar en Hey
 
 ```mermaid
 flowchart TD
-    AT_BTN([Botón Airtable<br/>"Generar Reel IG traje 1/2"]):::ext
+    AT_BTN([Botón Airtable<br/>'Generar Reel IG traje 1/2']):::ext
     WH[Webhook<br/>recibe record_id<br/>+ avatar + voz]:::node
     GET[Get Record Airtable<br/>lee Texto Reel IG]:::store
     HG_POST[HeyGen Create Video<br/>aspect_ratio=9:16<br/>subtítulos quemados<br/>retry · wait]:::ext
